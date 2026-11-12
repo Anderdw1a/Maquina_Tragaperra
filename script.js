@@ -248,7 +248,7 @@
 
     for (let i = 0; i < n; i++) {
       const img = new Image();
-      img.src = 'img/moneda.png';
+      img.src = 'moneda.png';
       img.alt = '';
       img.className = 'moneda';
       el.capa.appendChild(img);
@@ -358,7 +358,7 @@
   // Escala la máquina para que quepa en cualquier pantalla
   function ajustar() {
     const w = el.escenario.offsetWidth, h = el.escenario.offsetHeight;
-    const s = Math.max(0.4, Math.min(1, (window.innerWidth - 16) / w, (window.innerHeight - 16) / h));
+    const s = Math.max(0.4, Math.min(1, (document.documentElement.clientWidth - 16) / w, (document.documentElement.clientHeight - 16) / h));
     el.ajuste.style.width = w * s + 'px';
     el.ajuste.style.height = h * s + 'px';
     el.escenario.style.transform = `scale(${s})`;
