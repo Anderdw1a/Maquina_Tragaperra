@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tragaperras</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <button class="sonido" id="sonido" aria-pressed="true" aria-label="Silenciar sonido" title="Sonido">🔊</button>
+
+  <div class="ajuste" id="ajuste">
+    <div class="escenario" id="escenario">
+
+      <div class="maquina" id="maquina">
+
+        <header class="marquesina">
+          <span class="luces sup"></span>
+          <div class="rotulo">
+            <img src="img/moneda.png" alt="" class="moneda-titulo">
+            <h1 id="titulo">TRAGAPERRAS</h1>
+            <img src="img/moneda.png" alt="" class="moneda-titulo">
+          </div>
+          <span class="luces inf"></span>
+        </header>
+
+        <div class="modo">
+          <button class="boton-goat" id="modo" aria-pressed="false">🐐 GOAT</button>
+          <small id="modoTexto">Modo normal</small>
+        </div>
+
+        <section class="ventana" aria-label="Rodillos">
+          <div class="rodillos">
+            <div class="rodillo" aria-hidden="true"><div class="tira"></div></div>
+            <div class="rodillo" aria-hidden="true"><div class="tira"></div></div>
+            <div class="rodillo" aria-hidden="true"><div class="tira"></div></div>
+            <span class="linea"></span>
+          </div>
+        </section>
+
+        <div class="mensaje" id="mensaje" role="status" aria-live="polite">Ingresa dinero y tira de la palanca</div>
+
+        <section class="marcadores">
+          <div class="pantalla principal"><small>Saldo</small><output id="saldo">0 €</output></div>
+          <div class="pantalla"><small>Apuesta</small><output id="apuestaOut">10 €</output></div>
+          <div class="pantalla"><small>Último premio</small><output id="premio">0 €</output></div>
+        </section>
+
+        <section class="apuesta" id="apuesta" aria-label="Apuesta">
+          <label for="apuestaIn">Apuesta</label>
+          <button type="button" class="paso" id="menos" aria-label="Bajar apuesta">−</button>
+          <input type="number" id="apuestaIn" min="1" step="1" inputmode="numeric" value="10">
+          <button type="button" class="paso" id="mas" aria-label="Subir apuesta">+</button>
+          <button type="button" class="todo" id="maxApuesta" title="Apostar todo tu saldo">Todo</button>
+        </section>
+
+        <section class="caja" id="caja">
+          <div class="fila">
+            <label for="importe">Ingresar</label>
+            <input type="number" id="importe" min="1" step="1" inputmode="numeric" placeholder="Importe en €">
+            <button class="ingresar" id="ingresar">Ingresar</button>
+          </div>
+          <div class="chips">
+            <button type="button" data-valor="20">+20</button>
+            <button type="button" data-valor="50">+50</button>
+            <button type="button" data-valor="100">+100</button>
+            <button type="button" data-valor="500">+500</button>
+          </div>
+        </section>
+
+        <section class="premios" aria-label="Tabla de premios">
+          <div class="premio solo-normal"><span class="comb">🍒🍒🍒</span><b>x5</b></div>
+          <div class="premio solo-normal"><span class="comb">🔔🔔🔔</span><b>x20</b></div>
+          <div class="premio ancho"><span class="comb"><i class="l-ocho">8</i><i class="l-ocho">8</i><i class="l-ocho">8</i></span><b id="textoOcho">x50 JACKPOT</b></div>
+          <div class="premio ancho cabra-premio"><span class="comb"><i class="l-A">A</i><i class="l-G">G</i><i class="l-J">J</i></span><b>Impuesto de la cabra 🐐</b></div>
+        </section>
+
+        <div class="bandeja" id="bandeja" aria-hidden="true">
+          <img src="img/moneda.png" alt=""><img src="img/moneda.png" alt=""><img src="img/moneda.png" alt="">
+        </div>
+
+        <p class="pie">Dinero ficticio. Ander no admite reclamaciones.</p>
+      </div>
+
+      <button class="palanca listo" id="palanca" aria-label="Tirar de la palanca para girar">
+        <span class="soporte"></span>
+        <span class="brazo"></span>
+        <span class="bola"></span>
+        <span class="eje"></span>
+      </button>
+
+    </div>
+  </div>
+
+  <div class="capa-monedas" id="capaMonedas" aria-hidden="true"></div>
+
+  <div class="velo" id="velo" role="dialog" aria-modal="true" aria-labelledby="tituloImpuesto">
+    <div class="tarjeta">
+      <div class="cabra">🐐</div>
+      <h2 id="tituloImpuesto">Impuesto de la cabra</h2>
+      <p>Le das todo tu dinero a la cabra “Ander”.</p>
+      <div class="cantidad" id="perdido">−0 €</div>
+      <button class="pagar" id="pagar">Pagar a Ander</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+:root {
+  --vino-1: #a3213a;
+  --vino-2: #6d1226;
+  --vino-3: #47091a;
+  --oro: #f0c35a;
+  --oro-2: #b98a22;
+  --crema: #f7edd3;
+  --led: #ffb23e;
+  --verde: #43e29a;
+  --rojo: #ff5a5a;
+  --alto-sim: 92px;
+  --panel-1: #2a0610;
+  --panel-2: #1a0409;
+  --marco: #5a3b08;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  overflow-x: hidden;
+  font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  color: var(--crema);
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.025) 0 2px, transparent 2px 22px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.025) 0 2px, transparent 2px 22px),
+    radial-gradient(ellipse at 50% 30%, #3d1022 0%, #16060d 60%, #070103 100%);
+}
+
+:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+
+.ajuste { position: relative; }
+.escenario {
+  position: absolute;
+  left: 0; top: 0;
+  width: max-content;
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 6px 10px 10px;
+  transform-origin: 0 0;
+}
+
+/* ---------- Cabina ---------- */
+.maquina {
+  position: relative;
+  width: 440px;
+  padding: 22px 22px 14px;
+  border-radius: 30px 30px 16px 16px;
+  background: linear-gradient(180deg, var(--vino-1) 0%, var(--vino-2) 40%, var(--vino-3) 100%);
+  box-shadow:
+    inset 0 0 0 5px var(--oro),
+    inset 0 0 0 8px var(--marco),
+    inset 0 0 50px rgba(0,0,0,.55),
+    0 30px 60px rgba(0,0,0,.6),
+    0 0 90px rgba(240,195,90,.12);
+}
+
+/* Marquesina con bombillas */
+.marquesina {
+  position: relative;
+  padding: 24px 10px 24px;
+  border-radius: 16px;
+  background: linear-gradient(var(--panel-1), var(--panel-2));
+  box-shadow: inset 0 0 0 3px var(--oro-2), inset 0 0 20px #000;
+}
+.rotulo { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.moneda-titulo { width: 40px; height: 40px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.6)); }
+h1 {
+  font: 900 33px/1 "Arial Black", Impact, sans-serif;
+  letter-spacing: .08em;
+  background: linear-gradient(#fff3c4, var(--oro) 50%, var(--oro-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 0 #3a0a14);
+}
+.luces {
+  position: absolute;
+  left: 12px; right: 12px;
+  height: 12px;
+  background: radial-gradient(circle, #fff3c4 0 2.5px, var(--oro) 3.5px, rgba(240,195,90,0) 6px) 0 0 / 24px 12px repeat-x;
+  animation: parpadeo .9s steps(1) infinite;
+}
+.luces.sup { top: 7px; }
+.luces.inf { bottom: 7px; animation-delay: .45s; }
+@keyframes parpadeo { 0% { opacity: 1; } 50% { opacity: .3; } }
+.maquina.jackpot .luces { animation-duration: .15s; }
+
+/* ---------- Selector de modo ---------- */
+.modo { margin-top: 12px; display: flex; align-items: center; gap: 12px; }
+.modo small { font-size: 13px; opacity: .85; }
+.boton-goat {
+  flex: none;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 18px;
+  border: 2px solid var(--oro-2);
+  background: rgba(0,0,0,.35);
+  color: var(--crema);
+  font: 900 16px "Arial Black", Impact, sans-serif;
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+.boton-goat[aria-pressed="true"] {
+  background: linear-gradient(#ff8a5a, #c4260f);
+  border-color: #ffb08f;
+  color: #1a0200;
+  box-shadow: 0 0 16px rgba(255,70,30,.7);
+}
+.boton-goat.bloqueado { opacity: .6; cursor: not-allowed; }
+
+/* ---------- Ventana de rodillos ---------- */
+.ventana {
+  position: relative;
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 18px;
+  background: #0b0307;
+  box-shadow: inset 0 0 0 3px var(--oro-2), inset 0 0 24px #000;
+}
+.rodillos { position: relative; display: flex; gap: 8px; }
+.rodillo {
+  position: relative;
+  flex: 1;
+  height: calc(var(--alto-sim) * 3);
+  overflow: hidden;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #c9bb93, var(--crema) 18%, #fffaf0 50%, var(--crema) 82%, #c9bb93);
+  box-shadow: inset 0 0 12px rgba(0,0,0,.5);
+}
+/* Curvatura del cilindro */
+.rodillo::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(20,5,10,.72) 0%, rgba(20,5,10,0) 28%, rgba(20,5,10,0) 72%, rgba(20,5,10,.72) 100%);
+}
+.tira { display: flex; flex-direction: column; will-change: transform; }
+.rodillo.girando .tira { filter: blur(2.2px); }
+
+.sim {
+  flex: none;
+  height: var(--alto-sim);
+  display: grid;
+  place-items: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 1;
+  user-select: none;
+}
+.sim-A, .sim-G, .sim-J, .sim-ocho { font-size: 72px; }
+.sim-A { color: #c4162f; text-shadow: 0 2px 0 #fff, 0 4px 0 #7d0b19, 0 7px 8px rgba(0,0,0,.35); }
+.sim-G { color: #117a4d; text-shadow: 0 2px 0 #fff, 0 4px 0 #063d26, 0 7px 8px rgba(0,0,0,.35); }
+.sim-J { color: #1f4fb4; text-shadow: 0 2px 0 #fff, 0 4px 0 #0e2a63, 0 7px 8px rgba(0,0,0,.35); }
+.sim-ocho { color: #e0122c; font-size: 80px; text-shadow: 0 2px 0 #fff, 0 4px 0 #7d0b19, 0 0 16px rgba(255,190,0,.75); }
+
+.sim.ganador {
+  background: radial-gradient(circle, rgba(255,210,74,.6), transparent 70%);
+  animation: destello .45s ease-in-out 6 alternate;
+}
+@keyframes destello {
+  from { transform: scale(1); }
+  to   { transform: scale(1.16); filter: drop-shadow(0 0 12px #ffd24a); }
+}
+
+/* Línea de premio */
+.linea {
+  position: absolute;
+  left: -8px; right: -8px;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  background: var(--rojo);
+  box-shadow: 0 0 8px var(--rojo);
+  opacity: .85;
+  z-index: 2;
+  pointer-events: none;
+}
+.linea::before, .linea::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  border: 8px solid transparent;
+}
+.linea::before { left: -4px; border-left: 12px solid var(--oro); border-right: 0; }
+.linea::after  { right: -4px; border-right: 12px solid var(--oro); border-left: 0; }
+
+/* ---------- Mensaje ---------- */
+.mensaje {
+  min-height: 44px;
+  margin: 12px 0 4px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  text-wrap: balance;
+  font-size: 19px;
+  font-weight: 800;
+}
+.mensaje.gana { color: var(--verde); text-shadow: 0 0 12px rgba(67,226,154,.5); }
+.mensaje.pierde { color: var(--crema); opacity: .85; }
+.mensaje.alerta { color: var(--led); }
+.mensaje.impuesto { color: var(--rojo); }
+
+/* ---------- Marcadores LED ---------- */
+.marcadores { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 10px; margin-top: 6px; }
+.pantalla {
+  background: #070204;
+  border-radius: 10px;
+  padding: 8px 10px 6px;
+  text-align: right;
+  box-shadow: inset 0 0 0 2px #3a2a12, inset 0 4px 10px #000;
+  min-width: 0;
+}
+.pantalla small { display: block; text-align: left; font-size: 12px; color: #d9c9a0; }
+.pantalla output {
+  display: block;
+  font: 700 21px "Courier New", monospace;
+  color: var(--led);
+  text-shadow: 0 0 10px rgba(255,178,62,.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pantalla.principal output { font-size: 27px; }
+.sube { animation: sube .7s; }
+.baja { animation: baja .7s; }
+@keyframes sube { 30% { color: var(--verde); text-shadow: 0 0 14px var(--verde); } }
+@keyframes baja { 30% { color: var(--rojo); text-shadow: 0 0 14px var(--rojo); } }
+
+/* ---------- Apuesta ---------- */
+.apuesta {
+  margin-top: 14px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 12px;
+  background: linear-gradient(var(--panel-1), var(--panel-2));
+  box-shadow: inset 0 0 0 2px var(--oro-2);
+}
+.apuesta label { font-weight: 700; font-size: 14px; margin-right: 2px; }
+.apuesta input { text-align: center; }
+.paso {
+  flex: none;
+  width: 38px; height: 38px;
+  border: 0;
+  border-radius: 8px;
+  background: linear-gradient(#ffe08a, #e0a935);
+  color: #3a0a14;
+  font: 800 22px/1 Arial, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 3px #8a6212;
+}
+.paso:active { transform: translateY(2px); box-shadow: 0 1px #8a6212; }
+.todo {
+  flex: none;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--oro-2);
+  background: transparent;
+  color: var(--crema);
+  font-weight: 800;
+  cursor: pointer;
+}
+.todo:hover { background: rgba(240,195,90,.18); }
+.apuesta button:disabled, .apuesta input:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ---------- Caja de ingreso ---------- */
+.caja {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: linear-gradient(var(--panel-1), var(--panel-2));
+  box-shadow: inset 0 0 0 2px var(--oro-2);
+}
+.caja.sacudir, .sacudir { animation: sacudir .35s; }
+@keyframes sacudir { 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } }
+.fila { display: flex; gap: 8px; align-items: center; }
+.fila label { font-weight: 700; font-size: 14px; }
+input[type=number] {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 2px solid var(--marco);
+  background: #0b0307;
+  color: var(--led);
+  font: 700 18px "Courier New", monospace;
+  text-align: right;
+}
+input[type=number]::placeholder { color: #7a6a4a; font-size: 14px; font-weight: 400; }
+.ingresar {
+  height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 8px;
+  background: linear-gradient(#ffe08a, #e0a935);
+  color: #3a0a14;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 3px #8a6212;
+}
+.ingresar:active { transform: translateY(2px); box-shadow: 0 1px #8a6212; }
+.chips { display: flex; gap: 6px; margin-top: 8px; }
+.chips button {
+  flex: 1;
+  height: 30px;
+  border-radius: 15px;
+  border: 1px solid var(--oro-2);
+  background: transparent;
+  color: var(--crema);
+  font-weight: 700;
+  cursor: pointer;
+}
+.chips button:hover { background: rgba(240,195,90,.18); }
+
+/* ---------- Tabla de premios ---------- */
+.premios { margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.premio {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: rgba(0,0,0,.35);
+  font-size: 14px;
+}
+.premio.ancho { grid-column: 1 / -1; }
+.premio b { color: var(--oro); }
+.cabra-premio b { color: var(--rojo); }
+.comb { display: flex; gap: 3px; font-family: Georgia, serif; font-weight: 900; font-size: 18px; }
+.comb i { font-style: normal; }
+.l-A { color: #ff6b7e; }
+.l-G { color: #45d99c; }
+.l-J { color: #6c9bff; }
+.l-ocho { color: #ff3b52; }
+
+/* ---------- Bandeja de monedas ---------- */
+.bandeja {
+  position: relative;
+  height: 46px;
+  margin-top: 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 10px 10px 22px 22px;
+  background: linear-gradient(#050102, #1c0a10);
+  box-shadow: inset 0 6px 12px #000, 0 0 0 3px #7c7c84, 0 0 0 5px #3a3a40;
+}
+.bandeja img { width: 26px; height: 26px; margin: 0 -4px -6px; opacity: .9; }
+.bandeja img:nth-child(2) { transform: translateY(-4px); }
+
+.pie { margin-top: 12px; text-align: center; font-size: 12px; opacity: .7; }
+
+/* ---------- Palanca ---------- */
+.palanca {
+  position: relative;
+  flex: none;
+  width: 64px;
+  height: 280px;
+  margin: 120px 0 0 -10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.palanca.ocupada { cursor: not-allowed; }
+.soporte {
+  position: absolute; left: 0; top: 92px;
+  width: 30px; height: 96px;
+  border-radius: 0 14px 14px 0;
+  background: linear-gradient(90deg, #7e7e86, #ececf2 45%, #94949c);
+  box-shadow: 0 4px 10px rgba(0,0,0,.5);
+}
+.eje {
+  position: absolute; left: 28px; top: 128px;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #b8b8c0 50%, #6a6a72);
+  box-shadow: 0 2px 5px rgba(0,0,0,.5);
+  z-index: 3;
+}
+.brazo {
+  position: absolute; left: 34px; top: 30px;
+  width: 12px; height: 110px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(90deg, #7d7d85, #f4f4f8 45%, #8e8e96);
+  transform-origin: 50% 100%;
+  z-index: 1;
+}
+.bola {
+  position: absolute; left: 18px; top: 8px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff9a9a, #e0122c 45%, #7d0b19);
+  box-shadow: 0 4px 8px rgba(0,0,0,.5);
+  z-index: 2;
+}
+.palanca:not(.ocupada):hover .bola { filter: brightness(1.18); }
+.palanca.listo .bola { animation: latido 1.8s ease-in-out infinite; }
+@keyframes latido {
+  0%, 100% { box-shadow: 0 4px 8px rgba(0,0,0,.5), 0 0 0 0 rgba(255,90,90,.6); }
+  50%      { box-shadow: 0 4px 8px rgba(0,0,0,.5), 0 0 0 12px rgba(255,90,90,0); }
+}
+/* El brazo cruza el eje (scaleY negativo) y la bola baja con él */
+.palanca.tirada .brazo { animation: brazo 1s cubic-bezier(.45,0,.35,1) both; }
+.palanca.tirada .bola  { animation: bola  1s cubic-bezier(.45,0,.35,1) both; }
+@keyframes brazo {
+  0%   { transform: scaleY(1); }
+  28%  { transform: scaleY(-.85); }
+  52%  { transform: scaleY(-.85); }
+  85%  { transform: scaleY(1.06); }
+  100% { transform: scaleY(1); }
+}
+@keyframes bola {
+  0%   { transform: translateY(0); }
+  28%  { transform: translateY(203.5px); }
+  52%  { transform: translateY(203.5px); }
+  85%  { transform: translateY(-6.6px); }
+  100% { transform: translateY(0); }
+}
+
+/* ---------- Monedas animadas ---------- */
+.capa-monedas { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
+.moneda {
+  position: absolute; left: 0; top: 0;
+  width: 34px; height: 34px;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,.5));
+  will-change: transform, opacity;
+}
+
+/* ---------- Botón de sonido ---------- */
+.sonido {
+  position: fixed; top: 10px; right: 10px; z-index: 70;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--oro-2);
+  background: rgba(20,6,12,.85);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* ---------- Impuesto de la cabra ---------- */
+.velo {
+  position: fixed; inset: 0; z-index: 100;
+  display: none;
+  place-items: center;
+  padding: 16px;
+  background: rgba(5,0,3,.84);
+}
+.velo.abierto { display: grid; }
+.tarjeta {
+  width: min(420px, 100%);
+  padding: 26px 24px 28px;
+  text-align: center;
+  border-radius: 22px;
+  background: linear-gradient(#5a0f20, #2c0610);
+  box-shadow: inset 0 0 0 4px var(--oro), 0 30px 80px #000;
+  animation: aparece .35s cubic-bezier(.2,1.4,.4,1);
+}
+@keyframes aparece { from { transform: scale(.6); opacity: 0; } }
+.cabra { display: inline-block; font-size: 96px; line-height: 1; animation: cabeceo .5s ease-in-out infinite alternate; }
+@keyframes cabeceo { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+.tarjeta h2 {
+  margin: 8px 0 10px;
+  font: 900 32px/1.1 Georgia, serif;
+  color: var(--oro);
+  text-wrap: balance;
+}
+.tarjeta p { font-size: 19px; line-height: 1.35; }
+.cantidad { margin: 14px 0 20px; font: 700 34px "Courier New", monospace; color: var(--rojo); }
+.pagar {
+  padding: 13px 34px;
+  border: 0;
+  border-radius: 50px;
+  background: linear-gradient(#ffe08a, #e0a935);
+  color: #3a0a14;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px #8a6212;
+}
+
+/* ---------- MODO GOAT: otra paleta y viñeta de fuego ---------- */
+body.goat {
+  --vino-1: #4a4a54;
+  --vino-2: #25252c;
+  --vino-3: #0c0c10;
+  --oro: #ff5a2e;
+  --oro-2: #b3200c;
+  --crema: #ffe3da;
+  --led: #ff3b2e;
+  --panel-1: #1a1a1f;
+  --panel-2: #08080a;
+  --marco: #5a1208;
+  background:
+    repeating-linear-gradient(45deg, rgba(255,60,20,.05) 0 2px, transparent 2px 22px),
+    repeating-linear-gradient(-45deg, rgba(255,60,20,.05) 0 2px, transparent 2px 22px),
+    radial-gradient(ellipse at 50% 30%, #4a0c06 0%, #1a0403 60%, #050101 100%);
+}
+body.goat::after {
+  content: "";
+  position: fixed; inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  box-shadow: inset 0 0 120px rgba(255,40,0,.4);
+  animation: llama 2.4s ease-in-out infinite alternate;
+}
+@keyframes llama {
+  from { box-shadow: inset 0 0 90px rgba(255,40,0,.3); }
+  to   { box-shadow: inset 0 0 160px rgba(255,60,0,.6); }
+}
+.goat .maquina { box-shadow: inset 0 0 0 5px var(--oro), inset 0 0 0 8px var(--marco), inset 0 0 50px rgba(0,0,0,.6), 0 30px 60px rgba(0,0,0,.6), 0 0 110px rgba(255,60,20,.35); }
+.goat .ingresar, .goat .pagar, .goat .paso { background: linear-gradient(#ff9a7a, #e0452a); color: #1a0200; box-shadow: 0 3px #7a1e0d; }
+.goat .solo-normal { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  body.goat::after { animation: none; }
+  .luces, .palanca.listo .bola, .cabra, .sim.ganador { animation: none; }
+}
