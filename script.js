@@ -248,7 +248,7 @@
 
     for (let i = 0; i < n; i++) {
       const img = new Image();
-      img.src = 'moneda.png';
+      img.src = 'img/moneda.png';
       img.alt = '';
       img.className = 'moneda';
       el.capa.appendChild(img);
